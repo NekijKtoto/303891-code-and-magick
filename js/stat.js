@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 window.renderStatistics = function(ctx, names, times) {
   ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
@@ -23,10 +23,6 @@ window.renderStatistics = function(ctx, names, times) {
 
   var histogramHeight = 150;
   var step = histogramHeight / max;
- /* var histogramX = 130;
-  var histogramY = 80;
-  var histogramWidth = 40;
-  var histogramSpace = 90;*/
 
 var barHeigth = 40;  
 var indent = 90;  
