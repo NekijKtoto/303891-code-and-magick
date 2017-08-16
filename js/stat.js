@@ -1,12 +1,14 @@
 'use strict';
 
 window.renderStatistics = function (ctx, names, times) {
-  var drowingRect = function () {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-    ctx.fillRect(110, 20, 420, 270);
+  function drawRect (x,y, width, height) {
+    //ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+    //ctx.fillRect(110, 20, 420, 270);
     ctx.fillStyle = 'rgba(255, 255, 255, 1.0)';
-    ctx.fillRect(100, 10, 420, 270);
+    ctx.fillRect = (x, y, width, height);
+     return ctx.fillRect;
   };
+  ctx.fillRect = drawRect(100, 10, 420, 270);
   ctx.fillStyle = '#000';
   ctx.font = '16px PT Mono';
   ctx.fillText('Ура, вы победили! ', 120, 45);
