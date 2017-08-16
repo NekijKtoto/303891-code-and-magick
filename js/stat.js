@@ -8,7 +8,7 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.fillRect = (x, y, width, height);
      return ctx.fillRect;
   };
-  ctx.fillRect = drawRect(100, 10, 420, 270);
+  var rect = drawRect(100, 10, 420, 270);
   ctx.fillStyle = '#000';
   ctx.font = '16px PT Mono';
   ctx.fillText('Ура, вы победили! ', 120, 45);
