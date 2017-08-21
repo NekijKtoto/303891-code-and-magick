@@ -1,34 +1,50 @@
-'use srtict';
-
+'use strict';
+var wizardCount = 4;
 var userSetup = document.querySelector('.setup');
 var userSetupFooter = document.querySelector('.setup-similar');
 var setupSimilarList = userSetupFooter.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content;
-var setupSimilarLabel = similarWizardTemplate.querySelector('.setup-similar-label');
-var wizardCoat = similarWizardTemplate.querySelector('.wizard-coat');
-var wizardEye = similarWizardTemplate.querySelector('.wizard-eyes');
-var wizards = [
-  {name: ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'], surname: ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'], coatColor: ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'], eyesColor: ['black', 'red', 'blue', 'yellow', 'green']},
-  {name:  ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'], surname: ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'], coatColor: ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'], eyesColor: ['black', 'red', 'blue', 'yellow', 'green']},
-  {name: ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'], surname: ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'], coatColor: ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'], eyesColor: ['black', 'red', 'blue', 'yellow', 'green']},
-  {name: ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'], surname: ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'], coatColor: ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'], eyesColor: ['black', 'red', 'blue', 'yellow', 'green']}
-];
-var renderWizard = function (randName, randSurname, randCoat, randEyes) {
-  similarWizardTemplate.cloneNode(true);
-  for (var i = 0; i < 4; i++) {
-    randName = Math.floor(Math.random() * wizards[i].name.length);
-    randSurname = Math.floor(Math.random() * wizards[i].surname.length);
-    randCoat = Math.floor(Math.random() * wizards[i].coatColor.length);
-    randEyes = Math.floor(Math.random() * wizards[i].eyesColor.length);
-    setupSimilarLabel.textContent = wizards[i].name[randName] + ' ' + wizards[i].surname[randSurname];
-    wizardCoat.setAttribute('style', 'fill: '+ wizards[i].coatColor[randCoat] + ';');
-    wizardEye.setAttribute('style', 'fill: ' + wizards[i].eyesColor[randEyes] + ';');
+var wizardSource= {
+  name: ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'],
+  surname: ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'],
+  coatColor: ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'],
+  eyesColor: ['black', 'red', 'blue', 'yellow', 'green']
+};
+
+var getRandomFromArray = function (array) {
+  return array[Math.floor(Math.random() * array.length)];
+};
+
+var wizards = [];
+
+var generateData = function () {
+  for (var i = 0; i < wizardCount; i++) {
+    wizards.push({
+      name: getRandomFromArray(wizardSource.name) + ' ' + getRandomFromArray(wizardSource.surname),
+      coat: getRandomFromArray(wizardSource.coatColor),
+      eye: getRandomFromArray(wizardSource.eyesColor)
+    });
   }
 };
-var fragment = document.createDocumentFragment();
-for (var i = 0; i < 4; i++) {
-  fragment.appendChild(renderWizard(randName, randSurname, randCoat, randEyes));
-}
-setupSimilarList.appendChild(fragment);
+
+var renderWizard = function (data) {
+  var wizardElement = similarWizardTemplate.cloneNode(true);
+  wizardElement.querySelector('.setup-similar-label').textContent = data.name;
+  wizardElement.querySelector('.wizard-coat').style.fill = data.coat;
+  wizardElement.querySelector('.wizard-eyes').style.fill = data.eye;
+  return wizardElement;
+};
+
+var createWizardBlock = function () {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < wizardCount; i++) {
+     fragment.appendChild(renderWizard(wizards[i]));
+  }
+  setupSimilarList.appendChild(fragment);
+};
+
+generateData();
+createWizardBlock();
+
 userSetup.classList.remove('hidden');
 userSetupFooter.classList.remove('hidden');
